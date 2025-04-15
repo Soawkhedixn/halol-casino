@@ -4,8 +4,8 @@ from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardR
 from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, ContextTypes, filters
 
 # Настройки
-TOKEN = '8145291232:AAHXl2K77zhKk0cemoLpPsVjETcxRNDksVY'  # Токен тест-бота
-SECRET_CODE = "111111"
+TOKEN = '7815296787:AAGgMjQamSJekpVA2GIw1d2LC9Ne7glED8g'  # Токен тест-бота
+SECRET_CODE = "12wqeeerrr"
 EMOJI_LIST = ["💀", "❤️", "😭", "✅"]
 ALLOWED_USER_IDS = [813096225]  # Твой chat_id как админ
 SUITS = ["♥️", "♠️", "♣️", "♦️"]
