@@ -4,13 +4,12 @@ from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardR
 from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, ContextTypes, filters
 
 # Настройки
-TOKEN = '7815296787:AAGgMjQamSJekpVA2GIw1d2LC9Ne7glED8g'  # Токен тест-бота
-SECRET_CODE = "12wqeeerrr"
+TOKEN = '8145291232:AAHXl2K77zhKk0cemoLpPsVjETcxRNDksVY'  # Токен тест-бота
+SECRET_CODE = "111111"
 EMOJI_LIST = ["💀", "❤️", "😭", "✅"]
-MAIN_ADMIN_ID = 813096225  # Твой chat_id (только ты можешь добавлять админов)
-ALLOWED_USER_IDS = [813096225, 6614956958]  # Список админов
+ALLOWED_USER_IDS = [813096225]  # Твой chat_id как админ
 SUITS = ["♥️", "♠️", "♣️", "♦️"]
-SLOTS_SYMBOLS = ["🍒", "🍋", "💎", "⭐", "7️⃣"]
+SLOTS_SYMBOLS = ["🍒", "🍋", "💎", "⭐", "7️⃣"]  # Символы для слотов
 
 # Хранилища данных
 user_states = {}      # Состояние: waiting_for_captcha, waiting_for_code, verified, playing, playing_slots
@@ -86,14 +85,11 @@ async def admin_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message += f"{i}. {username} ({uid})\n"
     await update.message.reply_text(message)
 
-# Админ-команда: добавить пользователя в ALLOWED_USER_IDS (только для MAIN_ADMIN_ID)
+# Админ-команда: добавить пользователя в ALLOWED_USER_IDS
 async def add_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat.id
-    if chat_id != MAIN_ADMIN_ID:
-        if chat_id in ALLOWED_USER_IDS:
-            await update.message.reply_text("🚫 Faqat bosh admin qo'sha oladi!")
-        else:
-            await update.message.reply_text("🚫 Faqat adminlar uchun!")
+    if chat_id not in ALLOWED_USER_IDS:
+        await update.message.reply_text("🚫 Faqat adminlar uchun!")
         return
     try:
         new_user_id = int(context.args[0])
@@ -613,37 +609,3 @@ if __name__ == '__main__':
 
     print("Халол Казино включено 🎰")
     app.run_polling()
-
-# Сохранённая система денег (для будущего использования)
-"""
-# Хранилище для баланса
-user_balances = {}  # Баланс халол-коинов
-# Функция для создания кнопок ставок
-def create_bet_buttons():
-    keyboard = [
-        [KeyboardButton("10"), KeyboardButton("50")],
-        [KeyboardButton("100"), KeyboardButton("500")]
-    ]
-    return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-# Команда /balance
-async def balance(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat_id = update.message.chat.id
-    if chat_id not in user_balances:
-        user_balances[chat_id] = 1000
-    await update.message.reply_text(f"💰 Sening halol-coinlaring: {user_balances[chat_id]}")
-# Команда /top
-async def top(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not user_balances:
-        await update.message.reply_text("📊 Hozircha hech kim o'ynamadi!")
-        return
-    sorted_balances = sorted(user_balances.items(), key=lambda x: x[1], reverse=True)[:5]
-    message = "🏆 Top-5 o'yinchilar:\n"
-    for i, (chat_id, balance) in enumerate(sorted_balances, 1):
-        username = (await update.message.bot.get_chat(chat_id)).first_name or f"User {chat_id}"
-        message += f"{i}. {username} — {balance} halol-coin\n"
-    await update.message.reply_text(message)
-# В /start для разрешённых пользователей:
-user_balances[chat_id] = 1000  # Начальный баланс
-# В /start для обычных пользователей после пароля:
-user_balances[chat_id] = 1000  # Начальный баланс
-"""
